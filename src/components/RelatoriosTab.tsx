@@ -211,8 +211,36 @@ export function RelatoriosTab() {
     setIsCategoriaDialogOpen(true);
   };
 
-  const handleDeleteCategoria = (id: string) => {
-    dispatch({ type: 'DELETE_CATEGORIA', payload: id });
+  const handleDeleteCategoria = (categoria: Categoria) => {
+    // Check if this category has any transactions
+    const hasTransactions = state.transacoes.some(t => t.categoriaId === categoria.id) || 
+                           state.lancamentosFixos.some(l => l.categoriaId === categoria.id);
+    
+    setConfirmDeleteDialog({
+      isOpen: true,
+      categoriaId: categoria.id,
+      categoriaNome: categoria.nome,
+      hasTransactions
+    });
+  };
+
+  const confirmDeleteCategoria = () => {
+    dispatch({ type: 'DELETE_CATEGORIA', payload: confirmDeleteDialog.categoriaId });
+    setConfirmDeleteDialog({
+      isOpen: false,
+      categoriaId: '',
+      categoriaNome: '',
+      hasTransactions: false
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDeleteDialog({
+      isOpen: false,
+      categoriaId: '',
+      categoriaNome: '',
+      hasTransactions: false
+    });
   };
 
   return (
