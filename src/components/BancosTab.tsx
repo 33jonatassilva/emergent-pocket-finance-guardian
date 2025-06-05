@@ -91,8 +91,36 @@ export function BancosTab() {
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    dispatch({ type: 'DELETE_BANCO', payload: id });
+  const handleDelete = (banco: Banco) => {
+    // Check if this bank has any transactions
+    const hasTransactions = state.transacoes.some(t => t.bancoId === banco.id) || 
+                           state.lancamentosFixos.some(l => l.bancoId === banco.id);
+    
+    setConfirmDeleteDialog({
+      isOpen: true,
+      bancoId: banco.id,
+      bancoNome: banco.nome,
+      hasTransactions
+    });
+  };
+
+  const confirmDelete = () => {
+    dispatch({ type: 'DELETE_BANCO', payload: confirmDeleteDialog.bancoId });
+    setConfirmDeleteDialog({
+      isOpen: false,
+      bancoId: '',
+      bancoNome: '',
+      hasTransactions: false
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDeleteDialog({
+      isOpen: false,
+      bancoId: '',
+      bancoNome: '',
+      hasTransactions: false
+    });
   };
 
   const openNewDialog = () => {
