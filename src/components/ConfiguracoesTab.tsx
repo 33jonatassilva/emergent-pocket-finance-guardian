@@ -223,6 +223,18 @@ export function ConfiguracoesTab() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Confirmation Dialog for Clear All Data */}
+      <ConfirmationDialog
+        isOpen={confirmClearDialog}
+        onClose={() => setConfirmClearDialog(false)}
+        onConfirm={confirmClearAllData}
+        title="Limpar Todos os Dados"
+        description="Tem certeza que deseja limpar todos os dados? Esta ação removerá todos os bancos, transações, lançamentos fixos e manterá apenas as categorias padrão. Esta ação não pode ser desfeita."
+        confirmText="Limpar Dados"
+        cancelText="Cancelar"
+        variant="destructive"
+      />
     </div>
   );
 }
