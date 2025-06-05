@@ -173,7 +173,7 @@ export function BancosTab() {
                     <Button variant="outline" size="sm" onClick={() => handleEdit(banco)} className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                       <Edit className="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => handleDelete(banco.id)} className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                    <Button variant="outline" size="sm" onClick={() => handleDelete(banco)} className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
