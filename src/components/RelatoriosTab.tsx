@@ -634,6 +634,22 @@ export function RelatoriosTab() {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Confirmation Dialog for Delete Category */}
+      <ConfirmationDialog
+        isOpen={confirmDeleteDialog.isOpen}
+        onClose={closeConfirmDialog}
+        onConfirm={confirmDeleteCategoria}
+        title="Confirmar Exclusão"
+        description={
+          confirmDeleteDialog.hasTransactions 
+            ? `Tem certeza que deseja excluir a categoria "${confirmDeleteDialog.categoriaNome}"? Esta ação também removerá todas as transações e lançamentos fixos associados a esta categoria. Esta ação não pode ser desfeita.`
+            : `Tem certeza que deseja excluir a categoria "${confirmDeleteDialog.categoriaNome}"? Esta ação não pode ser desfeita.`
+        }
+        confirmText="Excluir"
+        cancelText="Cancelar"
+        variant="destructive"
+      />
     </div>
   );
 }
