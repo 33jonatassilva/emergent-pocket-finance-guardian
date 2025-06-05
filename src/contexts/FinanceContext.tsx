@@ -54,7 +54,15 @@ function financeReducer(state: FinanceState, action: FinanceAction): FinanceStat
         bancos: state.bancos.map(b => b.id === action.payload.id ? action.payload : b) 
       };
     case 'DELETE_BANCO':
-      return { ...state, bancos: state.bancos.filter(b => b.id !== action.payload) };
+      // Remove all transactions associated with this bank when deleting
+      const newTransacoes = state.transacoes.filter(t => t.bancoId !== action.payload);
+      const newLancamentosFixos = state.lancamentosFixos.filter(l => l.bancoId !== action.payload);
+      return { 
+        ...state, 
+        bancos: state.bancos.filter(b => b.id !== action.payload),
+        transacoes: newTransacoes,
+        lancamentosFixos: newLancamentosFixos
+      };
     case 'ADD_CATEGORIA':
       return { ...state, categorias: [...state.categorias, action.payload] };
     case 'UPDATE_CATEGORIA':
@@ -63,16 +71,102 @@ function financeReducer(state: FinanceState, action: FinanceAction): FinanceStat
         categorias: state.categorias.map(c => c.id === action.payload.id ? action.payload : c) 
       };
     case 'DELETE_CATEGORIA':
-      return { ...state, categorias: state.categorias.filter(c => c.id !== action.payload) };
-    case 'ADD_TRANSACAO':
-      return { ...state, transacoes: [...state.transacoes, action.payload] };
-    case 'UPDATE_TRANSACAO':
+      // Remove all transactions associated with this category when deleting
+      const newTransacoesAfterCat = state.transacoes.filter(t => t.categoriaId !== action.payload);
+      const newLancamentosFixosAfterCat = state.lancamentosFixos.filter(l => l.categoriaId !== action.payload);
       return { 
         ...state, 
-        transacoes: state.transacoes.map(t => t.id === action.payload.id ? action.payload : t) 
+        categorias: state.categorias.filter(c => c.id !== action.payload),
+        transacoes: newTransacoesAfterCat,
+        lancamentosFixos: newLancamentosFixosAfterCat
+      };
+    case 'ADD_TRANSACAO':
+      // Update bank balance when adding transaction
+      const bancoToUpdate = state.bancos.find(b => b.id === action.payload.bancoId);
+      let updatedBancos = state.bancos;
+      
+      if (bancoToUpdate) {
+        const novoSaldo = action.payload.tipo === 'Entrada' 
+          ? bancoToUpdate.saldoAtual + action.payload.valor
+          : bancoToUpdate.saldoAtual - action.payload.valor;
+        
+        updatedBancos = state.bancos.map(b => 
+          b.id === action.payload.bancoId 
+            ? { ...b, saldoAtual: novoSaldo }
+            : b
+        );
+      }
+      
+      return { 
+        ...state, 
+        transacoes: [...state.transacoes, action.payload],
+        bancos: updatedBancos
+      };
+    case 'UPDATE_TRANSACAO':
+      // Find old transaction to revert its effect, then apply new one
+      const oldTransacao = state.transacoes.find(t => t.id === action.payload.id);
+      let bancosAfterUpdate = [...state.bancos];
+      
+      if (oldTransacao) {
+        // Revert old transaction effect
+        const bancoAntigo = bancosAfterUpdate.find(b => b.id === oldTransacao.bancoId);
+        if (bancoAntigo) {
+          const saldoRevertido = oldTransacao.tipo === 'Entrada'
+            ? bancoAntigo.saldoAtual - oldTransacao.valor
+            : bancoAntigo.saldoAtual + oldTransacao.valor;
+          
+          bancosAfterUpdate = bancosAfterUpdate.map(b =>
+            b.id === oldTransacao.bancoId
+              ? { ...b, saldoAtual: saldoRevertido }
+              : b
+          );
+        }
+      }
+      
+      // Apply new transaction effect
+      const bancoNovo = bancosAfterUpdate.find(b => b.id === action.payload.bancoId);
+      if (bancoNovo) {
+        const novoSaldoFinal = action.payload.tipo === 'Entrada'
+          ? bancoNovo.saldoAtual + action.payload.valor
+          : bancoNovo.saldoAtual - action.payload.valor;
+        
+        bancosAfterUpdate = bancosAfterUpdate.map(b =>
+          b.id === action.payload.bancoId
+            ? { ...b, saldoAtual: novoSaldoFinal }
+            : b
+        );
+      }
+      
+      return { 
+        ...state, 
+        transacoes: state.transacoes.map(t => t.id === action.payload.id ? action.payload : t),
+        bancos: bancosAfterUpdate
       };
     case 'DELETE_TRANSACAO':
-      return { ...state, transacoes: state.transacoes.filter(t => t.id !== action.payload) };
+      // Revert transaction effect on bank balance when deleting
+      const transacaoToDelete = state.transacoes.find(t => t.id === action.payload);
+      let bancosAfterDelete = [...state.bancos];
+      
+      if (transacaoToDelete) {
+        const bancoAfetado = bancosAfterDelete.find(b => b.id === transacaoToDelete.bancoId);
+        if (bancoAfetado) {
+          const saldoRevertido = transacaoToDelete.tipo === 'Entrada'
+            ? bancoAfetado.saldoAtual - transacaoToDelete.valor
+            : bancoAfetado.saldoAtual + transacaoToDelete.valor;
+          
+          bancosAfterDelete = bancosAfterDelete.map(b =>
+            b.id === transacaoToDelete.bancoId
+              ? { ...b, saldoAtual: saldoRevertido }
+              : b
+          );
+        }
+      }
+      
+      return { 
+        ...state, 
+        transacoes: state.transacoes.filter(t => t.id !== action.payload),
+        bancos: bancosAfterDelete
+      };
     case 'ADD_LANCAMENTO_FIXO':
       return { ...state, lancamentosFixos: [...state.lancamentosFixos, action.payload] };
     case 'UPDATE_LANCAMENTO_FIXO':
