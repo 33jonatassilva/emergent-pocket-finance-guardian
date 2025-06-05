@@ -120,19 +120,6 @@ export function TransacoesTab() {
       dispatch({ type: 'UPDATE_TRANSACAO', payload: transacao });
     } else {
       dispatch({ type: 'ADD_TRANSACAO', payload: transacao });
-      
-      // Atualizar saldo do banco
-      const banco = state.bancos.find(b => b.id === formData.bancoId);
-      if (banco) {
-        const novoSaldo = formData.tipo === 'Entrada' 
-          ? banco.saldoAtual + parseFloat(formData.valor)
-          : banco.saldoAtual - parseFloat(formData.valor);
-        
-        dispatch({ 
-          type: 'UPDATE_BANCO', 
-          payload: { ...banco, saldoAtual: novoSaldo } 
-        });
-      }
     }
 
     resetForm();
