@@ -490,6 +490,18 @@ export function TransacoesTab() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Confirmation Dialog for Delete */}
+      <ConfirmationDialog
+        isOpen={confirmDeleteDialog.isOpen}
+        onClose={closeConfirmDialog}
+        onConfirm={confirmDelete}
+        title="Confirmar Exclusão"
+        description={`Tem certeza que deseja excluir a transação "${confirmDeleteDialog.transacaoDescricao}"? O saldo do banco será ajustado automaticamente. Esta ação não pode ser desfeita.`}
+        confirmText="Excluir"
+        cancelText="Cancelar"
+        variant="destructive"
+      />
     </div>
   );
 }
