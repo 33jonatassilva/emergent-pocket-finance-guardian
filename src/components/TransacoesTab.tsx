@@ -479,7 +479,7 @@ export function TransacoesTab() {
                         <Button variant="outline" size="sm" onClick={() => handleEdit(transacao)}>
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleDelete(transacao.id)}>
+                        <Button variant="outline" size="sm" onClick={() => handleDelete(transacao)}>
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
