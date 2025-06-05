@@ -17,6 +17,16 @@ export function TransacoesTab() {
   const { state, dispatch } = useFinance();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingTransacao, setEditingTransacao] = useState<Transacao | null>(null);
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState<{
+    isOpen: boolean;
+    transacaoId: string;
+    transacaoDescricao: string;
+  }>({
+    isOpen: false,
+    transacaoId: '',
+    transacaoDescricao: ''
+  });
+  
   const [formData, setFormData] = useState({
     descricao: '',
     valor: '',
