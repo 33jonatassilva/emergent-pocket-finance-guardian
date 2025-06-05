@@ -15,6 +15,17 @@ export function BancosTab() {
   const { state, dispatch } = useFinance();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingBanco, setEditingBanco] = useState<Banco | null>(null);
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState<{
+    isOpen: boolean;
+    bancoId: string;
+    bancoNome: string;
+    hasTransactions: boolean;
+  }>({
+    isOpen: false,
+    bancoId: '',
+    bancoNome: '',
+    hasTransactions: false
+  });
   
   const [bancoForm, setBancoForm] = useState({
     nome: '',
