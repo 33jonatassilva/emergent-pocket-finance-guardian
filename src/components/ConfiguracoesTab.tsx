@@ -73,24 +73,27 @@ export function ConfiguracoesTab() {
   };
 
   const handleClearAllData = () => {
-    if (window.confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
-      dispatch({
-        type: 'LOAD_DATA',
-        payload: {
-          bancos: [],
-          categorias: [
-            { id: '1', nome: 'Alimentação', tipo: 'Saída', cor: '#f87171' },
-            { id: '2', nome: 'Transporte', tipo: 'Saída', cor: '#fb923c' },
-            { id: '3', nome: 'Lazer', tipo: 'Saída', cor: '#a78bfa' },
-            { id: '4', nome: 'Salário', tipo: 'Entrada', cor: '#4ade80' },
-            { id: '5', nome: 'Freelance', tipo: 'Entrada', cor: '#38bdf8' }
-          ],
-          transacoes: [],
-          lancamentosFixos: [],
-          configuracoes: state.configuracoes
-        }
-      });
-    }
+    setConfirmClearDialog(true);
+  };
+
+  const confirmClearAllData = () => {
+    dispatch({
+      type: 'LOAD_DATA',
+      payload: {
+        bancos: [],
+        categorias: [
+          { id: '1', nome: 'Alimentação', tipo: 'Saída', cor: '#f87171' },
+          { id: '2', nome: 'Transporte', tipo: 'Saída', cor: '#fb923c' },
+          { id: '3', nome: 'Lazer', tipo: 'Saída', cor: '#a78bfa' },
+          { id: '4', nome: 'Salário', tipo: 'Entrada', cor: '#4ade80' },
+          { id: '5', nome: 'Freelance', tipo: 'Entrada', cor: '#38bdf8' }
+        ],
+        transacoes: [],
+        lancamentosFixos: [],
+        configuracoes: state.configuracoes
+      }
+    });
+    setConfirmClearDialog(false);
   };
 
   return (
