@@ -513,7 +513,7 @@ export function RelatoriosTab() {
                   <Button variant="outline" size="sm" onClick={() => handleEditCategoria(categoria)}>
                     <Edit className="w-3 h-3" />
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => handleDeleteCategoria(categoria.id)}>
+                  <Button variant="outline" size="sm" onClick={() => handleDeleteCategoria(categoria)}>
                     <Trash2 className="w-3 h-3" />
                   </Button>
                 </div>
