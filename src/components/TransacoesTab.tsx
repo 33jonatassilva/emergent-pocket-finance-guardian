@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
+import { ConfirmationDialog } from '@/components/ui/alert-confirmation';
 import { useFinance } from '@/contexts/FinanceContext';
 import { Transacao } from '@/types/entities';
 import { Plus, Edit, Trash2, Filter, Search } from 'lucide-react';
