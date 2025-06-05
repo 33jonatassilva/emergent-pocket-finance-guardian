@@ -155,8 +155,29 @@ export function TransacoesTab() {
     setIsDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    dispatch({ type: 'DELETE_TRANSACAO', payload: id });
+  const handleDelete = (transacao: Transacao) => {
+    setConfirmDeleteDialog({
+      isOpen: true,
+      transacaoId: transacao.id,
+      transacaoDescricao: transacao.descricao
+    });
+  };
+
+  const confirmDelete = () => {
+    dispatch({ type: 'DELETE_TRANSACAO', payload: confirmDeleteDialog.transacaoId });
+    setConfirmDeleteDialog({
+      isOpen: false,
+      transacaoId: '',
+      transacaoDescricao: ''
+    });
+  };
+
+  const closeConfirmDialog = () => {
+    setConfirmDeleteDialog({
+      isOpen: false,
+      transacaoId: '',
+      transacaoDescricao: ''
+    });
   };
 
   const getCategoriaName = (id: string) => {
