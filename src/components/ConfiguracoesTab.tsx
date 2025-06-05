@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { ConfirmationDialog } from '@/components/ui/alert-confirmation';
 import { useFinance } from '@/contexts/FinanceContext';
 import { Download, Upload, Trash2 } from 'lucide-react';
 
