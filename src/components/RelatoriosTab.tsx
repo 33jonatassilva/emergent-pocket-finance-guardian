@@ -19,6 +19,17 @@ export function RelatoriosTab() {
   const [anoSelecionado, setAnoSelecionado] = useState(new Date().getFullYear().toString());
   const [isCategoriaDialogOpen, setIsCategoriaDialogOpen] = useState(false);
   const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(null);
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState<{
+    isOpen: boolean;
+    categoriaId: string;
+    categoriaNome: string;
+    hasTransactions: boolean;
+  }>({
+    isOpen: false,
+    categoriaId: '',
+    categoriaNome: '',
+    hasTransactions: false
+  });
   
   const [categoriaForm, setCategoriaForm] = useState({
     nome: '',
