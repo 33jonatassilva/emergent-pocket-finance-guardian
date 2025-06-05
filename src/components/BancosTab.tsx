@@ -6,9 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ConfirmationDialog } from '@/components/ui/alert-confirmation';
 import { useFinance } from '@/contexts/FinanceContext';
 import { Banco } from '@/types/entities';
-import { Plus, Edit, Trash2, Building2, Palette } from 'lucide-react';
+import { Plus, Edit, Trash2, Building2, Palette, AlertTriangle } from 'lucide-react';
 
 export function BancosTab() {
   const { state, dispatch } = useFinance();
