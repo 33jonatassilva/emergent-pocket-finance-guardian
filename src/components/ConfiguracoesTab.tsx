@@ -12,6 +12,7 @@ import { Download, Upload, Trash2 } from 'lucide-react';
 export function ConfiguracoesTab() {
   const { state, dispatch } = useFinance();
   const [backupData, setBackupData] = useState('');
+  const [confirmClearDialog, setConfirmClearDialog] = useState(false);
 
   const handleConfigUpdate = (key: keyof typeof state.configuracoes, value: any) => {
     dispatch({
