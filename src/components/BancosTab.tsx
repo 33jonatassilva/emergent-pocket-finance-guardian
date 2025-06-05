@@ -282,6 +282,22 @@ export function BancosTab() {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Confirmation Dialog for Delete */}
+      <ConfirmationDialog
+        isOpen={confirmDeleteDialog.isOpen}
+        onClose={closeConfirmDialog}
+        onConfirm={confirmDelete}
+        title="Confirmar Exclusão"
+        description={
+          confirmDeleteDialog.hasTransactions 
+            ? `Tem certeza que deseja excluir o banco "${confirmDeleteDialog.bancoNome}"? Esta ação também removerá todas as transações e lançamentos fixos associados a este banco. Esta ação não pode ser desfeita.`
+            : `Tem certeza que deseja excluir o banco "${confirmDeleteDialog.bancoNome}"? Esta ação não pode ser desfeita.`
+        }
+        confirmText="Excluir"
+        cancelText="Cancelar"
+        variant="destructive"
+      />
     </div>
   );
 }
